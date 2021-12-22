@@ -1,7 +1,7 @@
 <template>
-  <div class="test">
-    <p>{{ name }}</p>
-    <button @click="changeName('Mikko')">change name</button>
+  <button @click="fetchData()">Get price</button>
+  <div v-if="price">
+    <p>btc in eur: {{ price.bitcoin.eur }}</p>
   </div>
 </template>
 
@@ -9,16 +9,21 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "ApiTest",
+  price: 0,
   components: {},
   data() {
     return {
-      name: "Test",
+      price: null,
     };
   },
   methods: {
-    changeName(name: string) {
-      this.name = name;
+    fetchData() {
+      fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur"
+      )
+        .then((res) => res.json())
+        .then((data) => (this.price = data))
+        .catch((err) => console.log(err.message));
     },
   },
 });
