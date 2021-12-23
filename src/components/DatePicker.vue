@@ -21,9 +21,9 @@ export default defineComponent({
   },
   methods: {
     dateToEpoch(date: string) {
-      let newDate = new Date(date)
+      let newDate = new Date(date);
       this.epochDate = newDate.getTime() / 1000.0;
-      console.log(this.epochDate)
+      console.log(this.epochDate);
     },
   },
 });

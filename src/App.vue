@@ -1,20 +1,14 @@
 <template>
-  <date-picker @date-changed="date = $event" />
-  <p>picked date: {{date}} </p>
+  <dateManager />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import DatePicker from "@/components/DatePicker.vue";
+import dateManager from "@/components/Datemanager.vue";
 
 export default defineComponent({
   name: "App",
-  components: { DatePicker },
-  data() {
-    return {
-      date: 0,
-    };
-  },
+  components: { dateManager },
 });
 </script>
 
