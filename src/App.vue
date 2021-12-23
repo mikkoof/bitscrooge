@@ -1,16 +1,19 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <ApiTest />
+  <date-picker @date-changed="date = $event" />
+  <p>picked date: {{date}} </p>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ApiTest from "./components/ApiTest.vue";
+import DatePicker from "@/components/DatePicker.vue";
 
 export default defineComponent({
   name: "App",
-  components: {
-    ApiTest,
+  components: { DatePicker },
+  data() {
+    return {
+      date: 0,
+    };
   },
 });
 </script>
