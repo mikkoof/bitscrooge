@@ -5,7 +5,8 @@
       <p>picked date: {{ startDate }}</p>
     </div>
     <div class="endDate">
-      <date-picker @date-changed="endDate = $event" />
+      <!-- Adding extra 3600 seconds to end date to make sure we get data for the end date as well -->
+      <date-picker @date-changed="endDate = $event + 3600" />
       <p>picked date: {{ endDate }}</p>
     </div>
   </div>
@@ -27,6 +28,14 @@ export default defineComponent({
       startDate: 0,
       endDate: 0,
     };
+  },
+  watch: {
+    startDate: function (newVal) {
+      this.$emit("dates", newVal, this.endDate);
+    },
+    endDate: function (newVal) {
+      this.$emit("dates", this.startDate, newVal);
+    },
   },
 });
 </script>
