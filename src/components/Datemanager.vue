@@ -12,6 +12,11 @@
 </template>
 
 <script lang="ts">
+/**
+ * This component gets the time range for the app.
+ * Start and end dates are in epoch format and emitted for parent component to use.
+ */
+
 import { defineComponent } from "vue";
 import DatePicker from "@/components/DatePicker.vue";
 

@@ -1,14 +1,14 @@
 <template>
-  <dateManager />
+  <layout />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import dateManager from "@/components/Datemanager.vue";
+import layout from "@/components/container.vue";
 
 export default defineComponent({
   name: "App",
-  components: { dateManager },
+  components: { layout },
 });
 </script>
 
@@ -21,4 +21,5 @@ export default defineComponent({
   color: #2c3e50;
   margin-top: 60px;
 }
+
 </style>
