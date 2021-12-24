@@ -1,20 +1,14 @@
 <template>
-  <date-picker @date-changed="date = $event" />
-  <p>picked date: {{date}} </p>
+  <layout />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import DatePicker from "@/components/DatePicker.vue";
+import layout from "@/components/container.vue";
 
 export default defineComponent({
   name: "App",
-  components: { DatePicker },
-  data() {
-    return {
-      date: 0,
-    };
-  },
+  components: { layout },
 });
 </script>
 
@@ -27,4 +21,5 @@ export default defineComponent({
   color: #2c3e50;
   margin-top: 60px;
 }
+
 </style>

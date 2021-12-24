@@ -1,12 +1,13 @@
 <template>
-  <div class="datePicker">
-    <input
-      type="date"
-      v-model="date"
-      @change="dateToEpoch(date), $emit('date-changed', epochDate)"
-    />
+  <div class="grid-container">
+    <div class="datePicker">
+      <input
+        type="date"
+        v-model="date"
+        @change="dateToEpoch(date), $emit('date-changed', epochDate)"
+      />
+    </div>
   </div>
-  <!-- {{ date }} $emit('date-changed', epochDate)-->
 </template>
 
 <script lang="ts">
@@ -20,10 +21,16 @@ export default defineComponent({
     };
   },
   methods: {
+    /**
+     * when user selects a date from input,
+     * the dateToEpoch function is called with the date as string parameter
+     * The date is then turned into epoch time.
+     * This is done because CoinGecko api uses this time format.
+     */
     dateToEpoch(date: string) {
-      let newDate = new Date(date)
+      let newDate = new Date(date);
       this.epochDate = newDate.getTime() / 1000.0;
-      console.log(this.epochDate)
+      console.log(this.epochDate);
     },
   },
 });
