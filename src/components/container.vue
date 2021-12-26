@@ -7,15 +7,17 @@
       <coin-history :startDate="startDate" :endDate="endDate" />
     </div>
     <div class="content">
-      <coin-history :coins="coins" />
+      <coin-history :history="history" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, reactive } from "vue";
 import dateManager from "@/components/Datemanager.vue";
 import CoinHistory from "./CoinHistory.vue";
+
+import History from "../assets/market";
 import Coin from "@/type/Coin";
 
 export default defineComponent({
@@ -25,6 +27,7 @@ export default defineComponent({
       startDate: 0,
       endDate: 0,
       coins: [] as PropType<Coin>,
+      history: [] as PropType<History>,
     };
   },
   methods: {
@@ -39,18 +42,15 @@ export default defineComponent({
       to: number,
       vs_currency = "eur"
     ) {
-      /**
-       * function fetches coin values and time and casts them into Coin interface.
-       */
       const apiAdress = "https://api.coingecko.com/api/v3/";
       const path = `/coins/${id}/market_chart/range/?vs_currency=${vs_currency}&from=${from}&to=${to}`;
       fetch(`${apiAdress + path}`).then((res) =>
         res
           .json()
-          .then((data) => (this.coins = data.prices))
+          .then((data) => (this.history = data.prices))
           .catch((err) => console.log(err.message))
       );
-      // console.log(this.coins);
+      // console.log(this.history);
     },
   },
 });

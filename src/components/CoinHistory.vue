@@ -2,8 +2,8 @@
   <div>
     <!-- {{ coins }} -->
     <ul>
-      <li v-for="coin in coins" :key="coin">
-        <p v-for="value in coin" :key="value">{{ value }}</p>
+      <li v-for="day in history" :key="day">
+        <p>{{ day[1] }}</p>
       </li>
     </ul>
   </div>
@@ -11,13 +11,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import Coin from "@/type/Coin";
+import History from "../assets/market";
 
 export default defineComponent({
   props: {
-    coins: {
+    history: {
       required: true,
-      type: Array as PropType<Coin[]>,
+      type: [] as PropType<History>,
     },
   },
 });
