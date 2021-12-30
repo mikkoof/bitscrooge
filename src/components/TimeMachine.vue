@@ -1,6 +1,11 @@
 <template>
-  <div>buy at: {{ timeMachine(Prices)[2] }} Value: {{ timeMachine(Prices)[3] }}</div>
-  <div>sell at: {{ timeMachine(Prices)[0] }} Value: {{ timeMachine(Prices)[1] }}</div>
+  <div>
+    buy at: {{ timeMachine(Prices)[2] }} Value: {{ timeMachine(Prices)[3] }}
+  </div>
+  <div>
+    sell at: {{ timeMachine(Prices)[0] }} Value: {{ timeMachine(Prices)[1] }}
+  </div>
+  <p>{{ timeMachine(Prices)[4] }}</p>
 </template>
 
 <script lang="ts">
@@ -49,25 +54,26 @@ export default defineComponent({
       for (const [key, moment] of Object.entries(moments)) {
         // initialize values
         if (Number(key) == 0) {
-          ctlVal = moment[0];
-          cthDate = moment[0];
-          lastVal = moment[0];
-          ctlDate = new Date(moment[1]);
-          cthDate = new Date(moment[1]);
+          ctlVal = moment[1];
+          cthVal = moment[1];
+          lastVal = moment[1];
+          ctlDate = new Date(moment[0]);
+          cthDate = new Date(moment[0]);
         } else {
-          currentVal = moment[0];
+          currentVal = moment[1];
           currentDate = new Date(moment[0]);
-        //   console.log(currentVal, " ", currentDate)
+          //   console.log(currentVal, " ", currentDate);
+          //   console.log(currentVal > lastVal);
           if (currentVal > lastVal) {
             if (currentVal > cthVal) {
               cthVal = currentVal;
               cthDate = currentDate;
-              ctVal = currentVal - ctlVal;
+              ctVal = cthVal - ctlVal;
               if (ctVal > htVal) {
                 htVal = ctVal;
                 htlVal = ctlVal;
-                hthVal = cthVal;
                 htlDate = ctlDate;
+                hthVal = cthVal;
                 hthDate = cthDate;
               }
             }
@@ -80,12 +86,15 @@ export default defineComponent({
                 htlDate = ctlDate;
                 hthDate = cthDate;
               }
+              ctlVal = currentVal;
+              ctlDate = currentDate;
+              cthVal = 0;
+              cthDate = new Date(0);
             }
           }
         }
       }
-
-      return [hthDate, hthVal, htlDate, htlVal];
+      return [hthDate, hthVal, htlDate, htlVal, htVal];
     },
   },
 });
