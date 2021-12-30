@@ -55,7 +55,7 @@ export default defineComponent({
         res
           .json()
           .then((data) => (this.history = data))
-          .then((history) => (this.historyLoaded = true))
+          .then(() => (this.historyLoaded = true))
           .catch((err) => console.log(err.message))
       );
     },

@@ -5,8 +5,8 @@
       <p>picked date: {{ startDate }}</p>
     </div>
     <div class="endDate">
-      <!-- Adding extra 3600 seconds to end date to make sure we get data for the end date as well -->
-      <date-picker @date-changed="endDate = $event + 3600" />
+      <!-- Adding extra 3600 * 24 seconds to end date to make sure we get data for the end date as well -->
+      <date-picker @date-changed="endDate = $event + (3600 * 24)" />
       <p>picked date: {{ endDate }}</p>
     </div>
   </div>
@@ -16,6 +16,7 @@
 /**
  * This component gets the time range for the app.
  * Start and end dates are in epoch format and emitted for parent component to use.
+ * parent component being container.
  */
 
 import { defineComponent } from "vue";

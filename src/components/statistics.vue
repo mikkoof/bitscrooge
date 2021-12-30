@@ -11,8 +11,8 @@
       Date for with largest trade volume:
       {{ getDateWithLargestTradingVolume(this.history.market_caps)[0] }}, Amount
       traded:
-      {{ getDateWithLargestTradingVolume(this.history.market_caps)[1] }} in
-      Euros,
+      {{ getDateWithLargestTradingVolume(this.history.market_caps)[1] }} Euros
+      worth
       <!-- Remember to set vs_currecy here if you add option to change it -->
     </p>
   </div>
@@ -64,7 +64,7 @@ export default defineComponent({
        *  compare if new value is lower than old value, if so add 1 to current bearish.
        *  if it is higher, compare if currentBearish is larger than longestBearish. If so set current to longest bearish
        */
-      for (const [key, moment] of Object.entries(moments)) {
+      for (const [, moment] of Object.entries(moments)) {
         newTime = new Date(moment[0]);
         if (!sameDay(lastTime, newTime)) {
           newValue = moment[1];
@@ -97,7 +97,7 @@ export default defineComponent({
       let lastVolume = 0;
       let currentVolume = 0;
 
-      for (const [key, trade_volume] of Object.entries(trade_volumes)) {
+      for (const [, trade_volume] of Object.entries(trade_volumes)) {
         currentDate = new Date(trade_volume[0]);
         currentVolume = trade_volume[1];
 
@@ -115,5 +115,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped></style>

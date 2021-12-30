@@ -1,11 +1,7 @@
 <template>
-  <div>
-    buy at: {{ timeMachine(Prices)[2] }} Value: {{ timeMachine(Prices)[3] }}
-  </div>
-  <div>
-    sell at: {{ timeMachine(Prices)[0] }} Value: {{ timeMachine(Prices)[1] }}
-  </div>
-  <p>{{ timeMachine(Prices)[4] }}</p>
+  <div>buy at: {{ ttData[2] }} Value: {{ ttData[3] }}</div>
+  <div>sell at: {{ ttData[0] }} Value: {{ ttData[1] }}</div>
+  <p>{{ ttData[4] }}</p>
 </template>
 
 <script lang="ts">
@@ -14,14 +10,22 @@ import Prices from "../type/market";
 
 export default defineComponent({
   name: "timeMachine",
-  setup() {
-    return {};
+  data() {
+    return {
+      ttData: [] as any,
+    };
   },
   props: {
     Prices: {
       required: true,
       type: [] as PropType<Prices>,
     },
+  },
+  mounted() {
+    this.timeMachine(this.Prices);
+  },
+  updated() {
+    this.timeMachine(this.Prices);
   },
   methods: {
     timeMachine(moments: Prices) {
@@ -55,46 +59,41 @@ export default defineComponent({
         // initialize values
         if (Number(key) == 0) {
           ctlVal = moment[1];
-          cthVal = moment[1];
+          cthVal = 0;
           lastVal = moment[1];
           ctlDate = new Date(moment[0]);
           cthDate = new Date(moment[0]);
         } else {
+          // set values for the iteration
           currentVal = moment[1];
           currentDate = new Date(moment[0]);
-          //   console.log(currentVal, " ", currentDate);
-          //   console.log(currentVal > lastVal);
           if (currentVal > lastVal) {
             if (currentVal > cthVal) {
               cthVal = currentVal;
               cthDate = currentDate;
-              ctVal = cthVal - ctlVal;
-              if (ctVal > htVal) {
-                htVal = ctVal;
-                htlVal = ctlVal;
-                htlDate = ctlDate;
-                hthVal = cthVal;
-                hthDate = cthDate;
-              }
+              ctVal = currentVal - ctlVal;
             }
           } else {
             if (currentVal < ctlVal) {
-              if (ctVal > htVal) {
-                htVal = ctVal;
-                htlVal = ctlVal;
-                hthVal = cthVal;
-                htlDate = ctlDate;
-                hthDate = cthDate;
-              }
+              // reset count
               ctlVal = currentVal;
               ctlDate = currentDate;
-              cthVal = 0;
-              cthDate = new Date(0);
+              cthVal = currentVal;
+              cthDate = currentDate;
+              ctVal = 0;
             }
           }
+          if (ctVal > htVal) {
+            htVal = ctVal;
+            htlVal = ctlVal;
+            htlDate = ctlDate;
+            hthVal = cthVal;
+            hthDate = cthDate;
+          }
+          lastVal = currentVal;
         }
       }
-      return [hthDate, hthVal, htlDate, htlVal, htVal];
+      this.ttData = [hthDate, hthVal, htlDate, htlVal, htVal];
     },
   },
 });
