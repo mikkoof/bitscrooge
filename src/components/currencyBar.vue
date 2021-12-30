@@ -5,6 +5,7 @@
   </div>
 </template>
 <script lang="ts">
+// Used to show each data points values
 import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
@@ -22,7 +23,6 @@ export default defineComponent({
   methods: {
     convertTime(epoch: number): string {
       const moment = new Date(epoch);
-      //  console.log(this.time);
       return moment.toLocaleString();
     },
   },

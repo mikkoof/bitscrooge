@@ -11,8 +11,8 @@
       Date for with largest trade volume:
       {{ getDateWithLargestTradingVolume(this.history.market_caps)[0] }}, Amount
       traded:
-      {{ getDateWithLargestTradingVolume(this.history.market_caps)[1] }} Euros
-      worth
+      {{ getDateWithLargestTradingVolume(this.history.market_caps)[1] }}
+      Euros worth
       <!-- Remember to set vs_currecy here if you add option to change it -->
     </p>
   </div>
@@ -31,16 +31,6 @@ const sameDay = (newDate: Date, lastDate: Date) =>
 
 export default defineComponent({
   name: "statistics",
-  setup() {
-    return {
-      bearishTrend: {
-        startDate: Date,
-        endDate: Date,
-        length: 0,
-      },
-      // LargestVolume = this.getDateWithLargestTradingVolume(this.history.market_caps);
-    };
-  },
   props: {
     history: {
       required: true,
@@ -49,9 +39,6 @@ export default defineComponent({
   },
   methods: {
     calculateBearishTrend(moments: Prices) {
-      // console.log(this.history.market_caps[0]);
-
-      // let lastTime = moments[0];
       let lastTime = new Date(0);
       let lastValue = 0;
       let newTime;

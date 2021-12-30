@@ -1,7 +1,7 @@
 <template>
-  <div>buy at: {{ ttData[2] }} Value: {{ ttData[3] }}</div>
-  <div>sell at: {{ ttData[0] }} Value: {{ ttData[1] }}</div>
-  <p>{{ ttData[4] }}</p>
+  <p>buy at: {{ ttData[2] }} Value: {{ ttData[3] }}</p>
+  <p>sell at: {{ ttData[0] }} Value: {{ ttData[1] }}</p>
+  <p>profit if buying and selling 1 bitcoin: {{ ttData[4] }} Euros</p>
 </template>
 
 <script lang="ts">
@@ -15,17 +15,18 @@ export default defineComponent({
       ttData: [] as any,
     };
   },
-  props: {
-    Prices: {
-      required: true,
-      type: [] as PropType<Prices>,
-    },
-  },
+  // update ttDate whenever component updates.
   mounted() {
     this.timeMachine(this.Prices);
   },
   updated() {
     this.timeMachine(this.Prices);
+  },
+  props: {
+    Prices: {
+      required: true,
+      type: [] as PropType<Prices>,
+    },
   },
   methods: {
     timeMachine(moments: Prices) {
@@ -41,7 +42,7 @@ export default defineComponent({
       let currentVal: number; //current value
       let currentDate: Date;
       let lastVal = Number.MAX_SAFE_INTEGER; //last value
-
+      // l = lowest, c = current, t = positive trend, h = highest
       let ctlVal = 0; //current positive trend's lowest value
       let cthVal = 0; //current positive trend's highest value
       let ctlDate = new Date(0); //current positive trend's lowest value's date
@@ -54,9 +55,8 @@ export default defineComponent({
       let htlDate = new Date(0); //highest positive trend's lowest value's date
       let hthDate = new Date(0); //highest positive trend's highest value's date
 
-      // l = lowest, c = current, t = positive trend, h = highest
       for (const [key, moment] of Object.entries(moments)) {
-        // initialize values
+        // initialize values with first object in array
         if (Number(key) == 0) {
           ctlVal = moment[1];
           cthVal = 0;
@@ -69,13 +69,14 @@ export default defineComponent({
           currentDate = new Date(moment[0]);
           if (currentVal > lastVal) {
             if (currentVal > cthVal) {
+              // new highest point in on dataset
               cthVal = currentVal;
               cthDate = currentDate;
               ctVal = currentVal - ctlVal;
             }
           } else {
             if (currentVal < ctlVal) {
-              // reset count
+              // new lowest point, start new dataset
               ctlVal = currentVal;
               ctlDate = currentDate;
               cthVal = currentVal;
@@ -84,19 +85,20 @@ export default defineComponent({
             }
           }
           if (ctVal > htVal) {
+            // current dataset has better profit than previously best dataset, replace best dataset with current dataset
             htVal = ctVal;
             htlVal = ctlVal;
             htlDate = ctlDate;
             hthVal = cthVal;
             hthDate = cthDate;
           }
+          // prep for next iteration
           lastVal = currentVal;
         }
       }
+      // set the values for component to use.
       this.ttData = [hthDate, hthVal, htlDate, htlVal, htVal];
     },
   },
 });
 </script>
-
-<style scoped></style>

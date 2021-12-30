@@ -1,10 +1,6 @@
 <template>
-  <div>
-    <ul>
-      <li v-for="moment in Prices" :key="moment">
-        <currency-bar :value="moment[1]" :time="moment[0]" />
-      </li>
-    </ul>
+  <div v-for="moment in Prices" :key="moment">
+    <currency-bar :value="moment[1]" :time="moment[0]" />
   </div>
 </template>
 
