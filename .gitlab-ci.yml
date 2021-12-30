@@ -1,8 +1,8 @@
 pages:
- image: node:14.18
+ image: node:12.17.0
  stage: deploy
  script:
-  - npm install --progress=false
+  - npm install
   - npm run build
   - rm -rf public
   - mkdir public
