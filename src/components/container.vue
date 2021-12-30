@@ -9,6 +9,9 @@
     <div class="stats">
       <statistics v-if="historyLoaded == true" :history="history" />
     </div>
+    <div class="timeMach">
+      
+    </div>
   </div>
 </template>
 
