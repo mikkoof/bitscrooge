@@ -31,7 +31,9 @@ export default defineComponent({
   },
   watch: {
     startDate: function (newVal) {
-      this.$emit("dates", newVal, this.endDate);
+      if (this.endDate != 0) {
+        this.$emit("dates", newVal, this.endDate);
+      }
     },
     endDate: function (newVal) {
       this.$emit("dates", this.startDate, newVal);

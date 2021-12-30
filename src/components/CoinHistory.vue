@@ -1,9 +1,8 @@
 <template>
   <div>
-    <!-- {{ coins }} -->
     <ul>
-      <li v-for="day in history" :key="day">
-        <p>{{ day[1] }}</p>
+      <li v-for="moment in Prices" :key="moment">
+        <currency-bar :value="moment[1]" :time="moment[0]" />
       </li>
     </ul>
   </div>
@@ -11,13 +10,15 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import History from "../assets/market";
+import Prices from "../type/market";
+import CurrencyBar from "./currencyBar.vue";
 
 export default defineComponent({
+  components: { CurrencyBar },
   props: {
-    history: {
+    Prices: {
       required: true,
-      type: [] as PropType<History>,
+      type: [] as PropType<Prices>,
     },
   },
 });
