@@ -10,7 +10,7 @@
       <statistics v-if="historyLoaded == true" :history="history" />
     </div>
     <div class="timeMach">
-      
+      <time-machine v-if="historyLoaded == true" :Prices="history.prices" />
     </div>
   </div>
 </template>
@@ -21,9 +21,10 @@ import dateManager from "@/components/Datemanager.vue";
 import CoinHistory from "./CoinHistory.vue";
 import Statistics from "./statistics.vue";
 import History from "../type/market";
+import TimeMachine from "./TimeMachine.vue";
 
 export default defineComponent({
-  components: { dateManager, CoinHistory, Statistics },
+  components: { dateManager, CoinHistory, Statistics, TimeMachine },
   data() {
     return {
       startDate: 0,
