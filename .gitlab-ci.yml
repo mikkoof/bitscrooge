@@ -1,8 +1,8 @@
 pages:
  image: node:latest
  stage: deploy
- tags: 
-  - shared
+ tags:
+    - general
  script:
   - npm install --progress=false
   - npm run build
