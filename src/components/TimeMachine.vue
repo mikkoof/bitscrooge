@@ -1,7 +1,22 @@
 <template>
-  <div v-if="profitable == true">
-    <p>buy at: {{ ttData[2] }} Value: {{ ttData[3] }}</p>
-    <p>sell at: {{ ttData[0] }} Value: {{ ttData[1] }}</p>
+  <div v-if="profitable == true && precise == false">
+    <p>
+      buy at: {{ ttData[2].toLocaleDateString() }} Value:
+      {{ ttData[3].toFixed(4) }}
+    </p>
+    <p>
+      sell at: {{ ttData[0].toLocaleDateString() }} Value:
+      {{ ttData[1].toFixed(4) }}
+    </p>
+    <p>
+      profit if buying and selling 1 bitcoin:
+      <b class="profitableText">{{ ttData[4].toFixed(4) }}</b> Euros
+    </p>
+  </div>
+
+  <div v-if="profitable == true && precise == true">
+    <p>buy at: {{ ttData[2] }} Value: {{ ttData[3].toFixed(4) }}</p>
+    <p>sell at: {{ ttData[0] }} Value: {{ ttData[1].toFixed(4) }}</p>
     <p>
       profit if buying and selling 1 bitcoin:
       <b class="profitableText">{{ ttData[4].toFixed(4) }}</b> Euros
@@ -10,11 +25,26 @@
   <div v-if="profitable == false">
     <p>buying during this time period is not profitable</p>
   </div>
+
+  <button
+    @click="
+      precise = !precise;
+      timeMachine(this.Prices);
+    "
+  >
+    Toggle precise time
+  </button>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import Prices from "../type/market";
+
+// True if both dates are within same day
+const sameDay = (newDate: Date, lastDate: Date) =>
+  newDate.getFullYear() == lastDate.getFullYear() &&
+  newDate.getMonth() == lastDate.getMonth() &&
+  newDate.getDate() == lastDate.getDate();
 
 export default defineComponent({
   name: "timeMachine",
@@ -22,6 +52,7 @@ export default defineComponent({
     return {
       ttData: [] as any,
       profitable: false, //this is set to true if it's possible to profit in time period
+      precise: false,
     };
   },
   props: {
@@ -51,6 +82,7 @@ export default defineComponent({
       let currentVal: number; //current value
       let currentDate: Date;
       let lastVal = Number.MAX_SAFE_INTEGER; //last value
+      let lastDate = new Date(0);
       // l = lowest, c = current, t = positive trend, h = highest
       let ctlVal = 0; //current positive trend's lowest value
       let cthVal = 0; //current positive trend's highest value
@@ -70,39 +102,44 @@ export default defineComponent({
           ctlVal = moment[1];
           cthVal = 0;
           lastVal = moment[1];
+          lastDate = new Date(moment[0]);
           ctlDate = new Date(moment[0]);
           cthDate = new Date(moment[0]);
         } else {
           // set values for the iteration
           currentVal = moment[1];
           currentDate = new Date(moment[0]);
-          if (currentVal > lastVal) {
-            if (currentVal > cthVal) {
-              // new highest point in on dataset
-              cthVal = currentVal;
-              cthDate = currentDate;
-              ctVal = currentVal - ctlVal;
+          // only run next part of code if it's either first dataset of a day or precise time is in use.
+          if (!sameDay(currentDate, lastDate) || this.precise == true) {
+            if (currentVal > lastVal) {
+              if (currentVal > cthVal) {
+                // new highest point in on dataset
+                cthVal = currentVal;
+                cthDate = currentDate;
+                ctVal = currentVal - ctlVal;
+              }
+            } else {
+              if (currentVal < ctlVal) {
+                // new lowest point, start new dataset
+                ctlVal = currentVal;
+                ctlDate = currentDate;
+                cthVal = currentVal;
+                cthDate = currentDate;
+                ctVal = 0;
+              }
             }
-          } else {
-            if (currentVal < ctlVal) {
-              // new lowest point, start new dataset
-              ctlVal = currentVal;
-              ctlDate = currentDate;
-              cthVal = currentVal;
-              cthDate = currentDate;
-              ctVal = 0;
+            if (ctVal > htVal) {
+              // current dataset has better profit than previously best dataset, replace best dataset with current dataset
+              htVal = ctVal;
+              htlVal = ctlVal;
+              htlDate = ctlDate;
+              hthVal = cthVal;
+              hthDate = cthDate;
             }
+            // prep for next iteration
+            lastVal = currentVal;
+            lastDate = currentDate;
           }
-          if (ctVal > htVal) {
-            // current dataset has better profit than previously best dataset, replace best dataset with current dataset
-            htVal = ctVal;
-            htlVal = ctlVal;
-            htlDate = ctlDate;
-            hthVal = cthVal;
-            hthDate = cthDate;
-          }
-          // prep for next iteration
-          lastVal = currentVal;
         }
       }
       // set the values for component to use.
