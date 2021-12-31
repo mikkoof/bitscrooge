@@ -1,7 +1,12 @@
 <template>
-  <p>buy at: {{ ttData[2] }} Value: {{ ttData[3] }}</p>
-  <p>sell at: {{ ttData[0] }} Value: {{ ttData[1] }}</p>
-  <p>profit if buying and selling 1 bitcoin: {{ ttData[4] }} Euros</p>
+  <div v-if="profitable == true">
+    <p>buy at: {{ ttData[2] }} Value: {{ ttData[3] }}</p>
+    <p>sell at: {{ ttData[0] }} Value: {{ ttData[1] }}</p>
+    <p>profit if buying and selling 1 bitcoin: <b class='profitableText'>{{ ttData[4].toFixed(4) }}</b> Euros</p>
+  </div>
+  <div v-if="profitable == false">
+    <p>buying during this time period is not profitable</p>
+  </div>
 </template>
 
 <script lang="ts">
@@ -13,6 +18,7 @@ export default defineComponent({
   data() {
     return {
       ttData: [] as any,
+      profitable: false, //this is set to true if it's possible to profit in time period
     };
   },
   props: {
@@ -98,6 +104,7 @@ export default defineComponent({
         }
       }
       // set the values for component to use.
+      if (htVal > 0) this.profitable = true;
       this.ttData = [hthDate, hthVal, htlDate, htlVal, htVal];
     },
   },

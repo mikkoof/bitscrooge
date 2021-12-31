@@ -1,12 +1,10 @@
 <template>
-  <div class="grid-container">
-    <div class="datePicker">
-      <input
-        type="date"
-        v-model="date"
-        @change="dateToEpoch(date), $emit('date-changed', epochDate)"
-      />
-    </div>
+  <div class="datePicker">
+    <input
+      type="date"
+      v-model="date"
+      @change="dateToEpoch(date), $emit('date-changed', epochDate)"
+    />
   </div>
 </template>
 

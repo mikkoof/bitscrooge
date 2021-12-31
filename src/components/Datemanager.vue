@@ -1,5 +1,5 @@
 <template>
-  <div class="date-selector-container">
+  <div class="split-container">
     <div class="startDate">
       <date-picker @date-changed="startDate = $event" />
       <p>picked start date in epoch format: {{ startDate }}</p>
@@ -43,10 +43,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.date-selector-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-}
-</style>

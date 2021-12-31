@@ -1,8 +1,12 @@
 <template>
-  <div class="valueBar">
-    <p>time: {{ convertTime(time) }} | value: {{ value }}</p>
-    <hr />
+  <div class="valueBar split-container">
+    <p>Time: {{ convertTime(time) }}</p>
+    <p>
+      Value:
+      <b class="profitableText"> {{ value.toFixed(4) }} </b> €
+    </p>
   </div>
+  <hr />
 </template>
 <script lang="ts">
 // Used to show each data points values

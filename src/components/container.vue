@@ -1,21 +1,22 @@
 <template>
+<h1>BitScrooge</h1>
   <div class="grid-container">
-    <div class="ui-small">
+    <div class="timeControl ui-block">
       <h3>Date Picker</h3>
       <dateManager @dates="dateChanged" />
     </div>
-    <div class="stats" v-if="historyLoaded == true">
+    <div class="stats ui-block" v-if="historyLoaded == true">
       <h3>Statistics</h3>
       <statistics v-if="historyLoaded == true" :history="history" />
     </div>
-    <div class="timeMachine" v-if="historyLoaded == true">
+    <div class="timeMachine ui-block" v-if="historyLoaded == true">
       <h3>Time Machine</h3>
       <time-machine :Prices="history.prices" />
     </div>
-  </div>
-  <div class="content" v-if="historyLoaded == true">
-    <h3>Data points:</h3>
-    <coin-history :Prices="history.prices" />
+    <div class="content ui-block" v-if="historyLoaded == true">
+      <h3>Data points:</h3>
+      <coin-history :Prices="history.prices" />
+    </div>
   </div>
 </template>
 
@@ -73,11 +74,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.grid-container {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  grid-auto-rows: 240px;
-}
+<style>
+@import "../assets/style.css";
 </style>
