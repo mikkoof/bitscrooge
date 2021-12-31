@@ -2,7 +2,10 @@
   <div v-if="profitable == true">
     <p>buy at: {{ ttData[2] }} Value: {{ ttData[3] }}</p>
     <p>sell at: {{ ttData[0] }} Value: {{ ttData[1] }}</p>
-    <p>profit if buying and selling 1 bitcoin: <b class='profitableText'>{{ ttData[4].toFixed(4) }}</b> Euros</p>
+    <p>
+      profit if buying and selling 1 bitcoin:
+      <b class="profitableText">{{ ttData[4].toFixed(4) }}</b> Euros
+    </p>
   </div>
   <div v-if="profitable == false">
     <p>buying during this time period is not profitable</p>
@@ -45,7 +48,6 @@ export default defineComponent({
        *    if current value is smaller than current trend's lowest value, compare current trend to highest positive trend.
        *        if current trend is larger than highest trend, set highest trend to current trend
        */
-      console.log("test");
       let currentVal: number; //current value
       let currentDate: Date;
       let lastVal = Number.MAX_SAFE_INTEGER; //last value
