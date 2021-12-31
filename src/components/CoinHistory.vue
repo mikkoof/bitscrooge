@@ -10,6 +10,7 @@ import Prices from "../type/market";
 import CurrencyBar from "./currencyBar.vue";
 
 export default defineComponent({
+  name: "CoinHistory",
   components: { CurrencyBar },
   props: {
     Prices: {

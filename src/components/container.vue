@@ -28,6 +28,7 @@ import History from "../type/market";
 import TimeMachine from "./TimeMachine.vue";
 
 export default defineComponent({
+  name: "layout",
   components: { dateManager, CoinHistory, Statistics, TimeMachine },
   data() {
     return {
@@ -57,6 +58,7 @@ export default defineComponent({
       to: number,
       vs_currency = "eur"
     ) {
+      console.log("fetching...")
       const apiAdress = "https://api.coingecko.com/api/v3/";
       const path = `/coins/${id}/market_chart/range/?vs_currency=${vs_currency}&from=${from}&to=${to}`;
       fetch(`${apiAdress + path}`).then((res) =>

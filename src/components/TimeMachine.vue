@@ -15,18 +15,19 @@ export default defineComponent({
       ttData: [] as any,
     };
   },
-  // update ttDate whenever component updates.
-  mounted() {
-    this.timeMachine(this.Prices);
-  },
-  updated() {
-    this.timeMachine(this.Prices);
-  },
   props: {
     Prices: {
       required: true,
       type: [] as PropType<Prices>,
     },
+  },
+  watch: {
+    Prices: function () {
+      this.timeMachine(this.Prices);
+    },
+  },
+  mounted() {
+    this.timeMachine(this.Prices);
   },
   methods: {
     timeMachine(moments: Prices) {
@@ -38,7 +39,7 @@ export default defineComponent({
        *    if current value is smaller than current trend's lowest value, compare current trend to highest positive trend.
        *        if current trend is larger than highest trend, set highest trend to current trend
        */
-
+      console.log("test");
       let currentVal: number; //current value
       let currentDate: Date;
       let lastVal = Number.MAX_SAFE_INTEGER; //last value
